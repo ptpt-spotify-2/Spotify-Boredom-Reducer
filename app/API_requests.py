@@ -1,6 +1,5 @@
 import joblib
 import json
-from fastapi import FastAPI
 import spotipy
 import os
 from sklearn.preprocessing import MinMaxScaler
@@ -12,10 +11,9 @@ import pandas as pd
 spotify_client_id = os.environ['SPOTIFY_CLIENT']
 spotify_client_secret = os.environ['SPOTIFY_CLIENT_SECRET']
 
-app = FastAPI()
-
 auth = spotipy.SpotifyClientCredentials(client_id=spotify_client_id, client_secret=spotify_client_secret)
 client = spotipy.Spotify(client_credentials_manager=auth)
+
 
 def get_query_id(query_results, query_type=None):
     """
@@ -38,31 +36,34 @@ def get_query_id(query_results, query_type=None):
 
     return id_list
 
+
 def get_model_input(track_item):
-  """
+    """
 
-  returns the features required for model input from a queried track item.
+    returns the features required for model input from a queried track item.
 
-  :param track_item: spotify API queried item
-  :return: model_features: list()
-  """
+    :param track_item: spotify API queried item
+    :return: model_features: list()
+    """
 
-  features_list = list(['popularity', 'duration_ms',
+    features_list = list(['popularity', 'duration_ms',
                         'danceability', 'energy', 'key',
                         'loudness', 'mode', 'speechiness',
                         'acousticness', 'instrumentalness', 'liveness',
                         'valence', 'tempo'])
 
-  track_id = track_item['id']
-  track_features_query = client.audio_features(tracks=[track_id])
-  track_features = track_item | track_features_query[0]
-  features_dict = dict()
+    track_id = track_item['id']
+    track_features_query = client.audio_features(tracks=[track_id])
+    track_features = track_item | track_features_query[0]
+    features_dict = dict()
 
-  for key in features_list:
-    features_dict[f'{key}'] = track_features[f"{key}"]
+    for key in features_list:
+        features_dict[f'{key}'] = track_features[f"{key}"]
 
-  model_df = pd.DataFrame(features_dict, index=[0])
-  return model_df
+        model_df = pd.DataFrame(features_dict, index=[0])
+
+    return model_df
+
 
 def model_prediction(model_input):
     """
@@ -72,7 +73,7 @@ def model_prediction(model_input):
 
     scalable_features = ['duration_ms', 'popularity', 'tempo', 'key']
     scaling_transformer = Pipeline(steps=[('scaler', MinMaxScaler())])
-    knn = joblib.load("model/autoknnbaseline2/autoknnbaseline2.joblib")
+    knn = joblib.load("model/knn_best.joblib.gz")
 
     column_trans = ColumnTransformer(
         transformers=[
@@ -84,6 +85,7 @@ def model_prediction(model_input):
     neighbors = knn.kneighbors(transformed_features[0].reshape(1, -1), return_distance=False)[0]
     neighbors_list = neighbors.tolist()
     return neighbors_list
+
 
 def get_tracks_model(model_output):
     """
@@ -100,21 +102,3 @@ def get_tracks_model(model_output):
 
     track_items = client.tracks(track_list)
     return track_items
-
-
-
-# @app.get("/search/{query}/{query_type}")
-# async def search(query: str, query_type: str):
-#     response = client.search(q=f"{query}:", type=f"{query_type}", limit=10)
-#     query_items = response[f"{query_type}s"]["items"]
-#     top_track_item = query_items[0]
-#
-#     model_input = get_model_input(top_track_item)
-#
-#     predict = model_prediction(model_input)
-#
-#     tracks_items = get_tracks_model(predict)
-#
-#     song_name_id = get_query_id(tracks_items["tracks"], query_type="track")
-#
-#     return song_name_id
