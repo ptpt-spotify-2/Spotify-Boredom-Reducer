@@ -15,11 +15,39 @@ auth = spotipy.SpotifyClientCredentials(client_id=spotify_client_id, client_secr
 client = spotipy.Spotify(client_credentials_manager=auth)
 
 
+def song_search(q_type, subject):
+
+    q = subject.replace(' ', '%20')
+    results = client.search(q, limit=1, type=q_type)
+
+    if q_type == 'track':
+        artist_name = results['tracks']['items'][0]['artists'][0]['name']
+        artist_id = results['tracks']['items'][0]['artists'][0]['id']
+        artist_uri = results['tracks']['items'][0]['artists'][0]['uri']
+        track_name = results['tracks']['items'][0]['name']
+        track_id = results['tracks']['items'][0]['id']
+        track_preview_url = results['tracks']['items'][0]['preview_url']
+        track_uri = results['tracks']['items'][0]['uri']
+        popularity = results['tracks']['items'][0]['popularity']
+
+        result_dict = {
+            'artist_name': artist_name,
+            'artist_id': artist_id,
+            'artist_uri': artist_uri,
+            'track_name': track_name,
+            'track_id': track_id,
+            'track_preview_url': track_preview_url,
+            'track_uri': track_uri,
+            'popularity': popularity
+        }
+
+        return result_dict
+
+
 def get_query_id(query_results, query_type=None):
     """
     get id(s) for query results. if query type is set to track also returns
     preview url.
-
     :param query_results: json object
     :param query_type: str
     :return: id_list
@@ -43,19 +71,24 @@ def get_model_input(track_item):
     returns the features required for model input from a queried track item.
 
     :param track_item: spotify API queried item
+        must include track id and  popularity
     :return: model_features: list()
     """
 
-    features_list = list(['popularity', 'duration_ms',
+    features_list = list(['duration_ms',
                         'danceability', 'energy', 'key',
                         'loudness', 'mode', 'speechiness',
                         'acousticness', 'instrumentalness', 'liveness',
                         'valence', 'tempo'])
 
     track_id = track_item['id']
+    popularity = track_item['popularity']
+
     track_features_query = client.audio_features(tracks=[track_id])
-    track_features = track_item | track_features_query[0]
-    features_dict = dict()
+    track_features = track_features_query[0]
+
+    features_dict = dict({"popularity": f"{popularity}"})
+
 
     for key in features_list:
         features_dict[f'{key}'] = track_features[f"{key}"]
@@ -73,7 +106,7 @@ def model_prediction(model_input):
 
     scalable_features = ['duration_ms', 'popularity', 'tempo', 'key']
     scaling_transformer = Pipeline(steps=[('scaler', MinMaxScaler())])
-    knn = joblib.load("model/knn_best.joblib.gz")
+    knn = joblib.load("../model/knn_best.joblib.gz")
 
     column_trans = ColumnTransformer(
         transformers=[
@@ -94,11 +127,11 @@ def get_tracks_model(model_output):
     :return: Spotify_api tracks
     """
     track_list = list()
-    open_tracks = open("csv/df_ids.json")
+    open_tracks = open("../csv/df_ids.json")
     track_ids = json.load(open_tracks)
 
     for key in model_output:
-        track_list.append(track_ids[f'{key}'])
+        track_list.append(track_ids[str(key)])
 
     track_items = client.tracks(track_list)
     return track_items
