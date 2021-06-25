@@ -1,0 +1,43 @@
+@import url('https://fonts.googleapis.com/css2?family=Bungee+Inline&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Bungee+Inline&display=swap');
+#wrapper{
+    margin: auto;
+    display: table
+}
+#title{
+    display: table;
+}
+#title span{
+    line-height: 90px;
+    font-family: 'Bungee Inline', cursive;
+    font-size: 100px;
+    display: table-row-group;
+}
+
+#form{
+    font-family: "Bebas Neue", cursive;
+    font-size:35px;
+    background-color: lightblue;
+    display: table;
+}
+    #form p{
+        display: table-row-group;
+    }
+        #form p div{
+            display: table-cell;
+        }
+            #form label, #form select, #form input{
+                margin: 10px;
+            }
+            .form_input_text{
+                font-size: 25px;
+            }
+        #submit{
+            width: 120px;
+            margin: 10px auto;
+            display: table-cell;
+            font-family: "Bebas Neue", cursive;
+            font-size: 30px;
+        }
+
+

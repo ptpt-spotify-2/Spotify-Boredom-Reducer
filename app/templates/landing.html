@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <link href="../static/main.css" rel="stylesheet" type="text/css"/>
+    <title>Spotify Boredom Reducer</title>
+</head>
+<body>
+<div id="'wrapper">
+
+<div id="title">
+    <span>Spotify</span>
+    <br />
+    <span>Boredom</span>
+    <br />
+    <span>Reducer</span>
+</div>
+
+<div id="form">
+    <p>
+        <div>
+            <label for="query_type">
+                What are you searching for?
+            </label>
+            <select id="query_type" class="form_input_text" name="search_item">
+              <option value="album">Album</option>
+              <option value="artist">Artist</option>
+              <option value="playlist">Playlist</option>
+              <option value="track">Track</option>
+            </select>
+        </div>
+        <div>
+        <label for="query_text">
+            What is it called?
+        </label>
+        <input id="query_text" class="form_input_text" name="query_text" type="text" maxlength="40" />
+        </div>
+    </p>
+    <p>
+        <input id="submit" name="submit" type="button" value="Get Songs" />
+    </p>
+</div>
+
+<div id="suggested_songs">
+    <label for="song1">
+        <input id="song1" type="radio" name="song_list" />
+        song1
+    </label>
+    <br />
+    <label for="song2">
+        <input id="song2" type="radio" name="song_list" />
+        song2
+    </label>
+    <br />
+    <label for="song3">
+        <input id="song3" type="radio" name="song_list" />
+        song3
+    </label>
+    <br />
+    <label for="song4">
+        <input id="song4" type="radio" name="song_list" />
+        song4
+    </label>
+    <br />
+    <label for="song5">
+        <input id="song5" type="radio" name="song_list" />
+        song5
+    </label>
+</div>
+
+</div>
+
+<script type="text/javascript" src="../static/form_handler.js"></script>
+
+</body>
+</html>
