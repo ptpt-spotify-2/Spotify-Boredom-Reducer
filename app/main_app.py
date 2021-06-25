@@ -2,7 +2,7 @@ from flask import Flask, render_template, jsonify, request
 import API_requests
 
 
-def app_run():
+def run_app():
     app = Flask(__name__)
     req_handler = API_requests
 
