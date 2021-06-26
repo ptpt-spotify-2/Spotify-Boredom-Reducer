@@ -1,43 +1,133 @@
 @import url('https://fonts.googleapis.com/css2?family=Bungee+Inline&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Bungee+Inline&display=swap');
+
+body{
+    background-color: #D7E9EA;
+}
+p{
+    margin: 0px;
+}
 #wrapper{
-    margin: auto;
-    display: table
-}
-#title{
-    display: table;
-}
-#title span{
-    line-height: 90px;
-    font-family: 'Bungee Inline', cursive;
-    font-size: 100px;
-    display: table-row-group;
+    color: #0B0C10;
+    max-width: 1100px;
+    margin: 0px auto;
+    display: grid;
+    grid-template-columns: 554px 322px 200px;
+    grid-template-rows: 322px 128px;
+    grid-template-areas:
+            "title form form"
+            "songs songs player"
 }
 
+#title{
+    border: 2px solid #28484C;
+    width: 520px;
+    padding: 9px 15px;
+    height: 300px;
+    grid-area: title;
+    background-color: #EFF5F6;
+    color: #0E4C55;
+}
+    #title p{
+        font-family: 'Bungee Inline', cursive;
+        font-size: 100px;
+        margin: 0px;
+        line-height: 100px;
+    }
+
 #form{
+    background-color: #54C0D2;
+    height: 318px;
+    border: 2px solid #28484C;
+    border-left: 0px none transparent;
     font-family: "Bebas Neue", cursive;
     font-size:35px;
     background-color: lightblue;
-    display: table;
+    width: 520px;
+    grid-area: form;
+
+    display: grid;
+    grid-template-columns: 350px 172px;
+    grid-template-rows: 25% 25% 25% 25%;
+    grid-template-areas:
+        "search_text search_type"
+        "entry_label ."
+        "entry_text ."
+        "submit clear";
 }
     #form p{
-        display: table-row-group;
     }
-        #form p div{
-            display: table-cell;
+        #search_group label{
+            grid-area: search_text;
         }
-            #form label, #form select, #form input{
-                margin: 10px;
-            }
-            .form_input_text{
-                font-size: 25px;
-            }
+        #search_group input{
+            grid-area: search_type;
+        }
+        .form_input_text{
+            font-size: 25px;
+        }
+        #query_group label{
+            grid-area: entry_label;
+        }
+        #query_group input{
+            grid-area: entry_text;
+        }
         #submit{
+            grid-area: submit;
+        }
+        #clear_form{
+            grid-area:clear;
+        }
+        .form_button{
             width: 120px;
             margin: 10px auto;
-            display: table-cell;
             font-family: "Bebas Neue", cursive;
             font-size: 30px;
+            background-color: #EFF5F6;
+            color: #45A29E;
+            border-radius: 10px;
         }
+#player{
+    border-color: #1F2833;
+    display: none;
+    grid-area: player;
+}
 
+#suggested_songs{
+    display: none;
+    grid-area: songs;
+    grid-template-columns: 33% 33% 33%;
+    grid-template-rows: 64px;
+    grid-auto-flow: row;
+    max-width: 1100px;
+}
+    #suggested_songs p{
+        margin: 0px;
+        width: 100%;
+        height:64px;
+        background-color: #EFF5F6;
 
+        display:grid;
+        grid-template-columns: 64px auto;
+        grid-template-rows: 32px auto;
+        grid-template-areas:
+            "image song"
+            "image artist";
+        }
+        #suggested_songs img{
+            grid-area: image;
+            display: inline-block;
+        }
+        #suggested_songs span{
+            display: block;
+        }
+            .song_name{
+                grid-area: song;
+            }
+            .artist_name{
+                grid-area: artist;
+            }
+
+.preview_link{
+        display: none;
+    }
