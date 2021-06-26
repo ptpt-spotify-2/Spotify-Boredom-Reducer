@@ -19,32 +19,36 @@ def song_search(q_type, subject):
 
     q = subject.replace(' ', '%20')
     results = client.search(q, limit=1, type=q_type)
-
-    if q_type == 'track':
-        artist_name = results['tracks']['items'][0]['artists'][0]['name']
-        artist_id = results['tracks']['items'][0]['artists'][0]['id']
-        artist_uri = results['tracks']['items'][0]['artists'][0]['uri']
-        track_name = results['tracks']['items'][0]['name']
+    print(results)
+    if q_type == 'track' and results['tracks']['total'] != 0:
+        # artist_name = results['tracks']['items'][0]['artists'][0]['name']
+        # artist_id = results['tracks']['items'][0]['artists'][0]['id']
+        # artist_uri = results['tracks']['items'][0]['artists'][0]['uri']
+        # album_name = results['tracks']['items'][0]['album']['name']
+        # album_image = results['tracks']['items'][0]['album']['images'][2]['url']
+        # track_name = results['tracks']['items'][0]['name']
         track_id = results['tracks']['items'][0]['id']
-        track_preview_url = results['tracks']['items'][0]['preview_url']
-        track_uri = results['tracks']['items'][0]['uri']
+        # track_preview_url = results['tracks']['items'][0]['preview_url']
+        # track_uri = results['tracks']['items'][0]['uri']
         popularity = results['tracks']['items'][0]['popularity']
 
         result_dict = {
-            'artist_name': artist_name,
-            'artist_id': artist_id,
-            'artist_uri': artist_uri,
-            'track_name': track_name,
+            # 'artist_name': artist_name,
+            # 'artist_id': artist_id,
+            # 'artist_uri': artist_uri,
+            # 'album_name': album_name,
+            # 'album_image_url': album_image,
+            # 'track_name': track_name,
             'track_id': track_id,
-            'track_preview_url': track_preview_url,
-            'track_uri': track_uri,
+            # 'track_preview_url': track_preview_url,
+            # 'track_uri': track_uri,
             'popularity': popularity
         }
 
         return result_dict
 
 
-def get_query_id(query_results, query_type=None):
+def get_query_id(query_results, query_type='track'):
     """
     get id(s) for query results. if query type is set to track also returns
     preview url.
@@ -54,13 +58,24 @@ def get_query_id(query_results, query_type=None):
     """
     id_list = list()
     for item in query_results:
-        name = item["name"]
+
+        album_name = item['album']['name']
+        album_image = item['album']['images'][2]['url']
+        artist_name = item['album']['artists'][0]['name']
+        song_name = item["name"]
         item_id = item["id"]
-        if query_type == "track":
+
+        if query_type == query_type:
             preview = item["preview_url"]
-            id_list.append((name, item_id, preview))
+            id_list.append((
+                album_name, album_image, artist_name,
+                song_name, item_id, preview
+            ))
         else:
-            id_list.append((name, item_id))
+            id_list.append((
+                album_name, album_image, artist_name,
+                song_name, item_id
+            ))
 
     return id_list
 

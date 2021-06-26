@@ -7,49 +7,83 @@
     <title>Spotify Boredom Reducer</title>
 </head>
 <body>
-<div id="'wrapper">
+<div id="wrapper">
+
 
 <div id="title">
-    <span>Spotify</span>
-    <br />
-    <span>Boredom</span>
-    <br />
-    <span>Reducer</span>
+    <p>Spotify</p>
+    <p>Boredom</p>
+    <p>Reducer</p>
 </div>
 
 <div id="form">
-    <p>
-        <div>
+    <div>
+        <div id="search_group">
             <label for="query_type">
                 What are you searching for?
             </label>
             <select id="query_type" class="form_input_text" name="search_item">
-              <option value="album">Album</option>
-              <option value="artist">Artist</option>
-              <option value="playlist">Playlist</option>
+              <!--
+                <option value="album">Album</option>
+                <option value="artist">Artist</option>
+                <option value="playlist">Playlist</option>
+              -->
               <option value="track">Track</option>
             </select>
         </div>
-        <div>
-        <label for="query_text">
-            What is it called?
-        </label>
-        <input id="query_text" class="form_input_text" name="query_text" type="text" maxlength="40" />
+        <div id="query_group">
+            <label for="query_text">
+                What is it called?
+            </label>
+            <input id="query_text" class="form_input_text" name="query_text" type="text" maxlength="40" />
         </div>
-    </p>
+    </div>
     <p>
-        <input id="submit" name="submit" type="button" value="Get Songs" />
+        <input id="submit" class="form_button" name="submit" type="button" value="Get Songs" />
+        <input id="clear_form" class="form_button" name="clear_form" type="button" value="Clear" />
     </p>
 </div>
 
-<div id="suggested_songs">
+<audio id="player" controls="" name="media">
+    <source id="song" src="" type="audio/mpeg">
+</audio>
 
+<div id="suggested_songs">
+    <p id="song1" class="songs">
+        <img class="album_image" src="" alt="" />
+        <span class="song_name"></span>
+        <span class="artist_name"></span>
+        <a href="" class="preview_link">Link to Spotify</a>
+    </p>
+    <p id="song2" class="songs">
+        <img class="album_image" src="" alt="" />
+        <span class="song_name"></span>
+        <span class="artist_name"></span>
+        <a href="" class="preview_link">Link to Spotify</a>
+    </p>
+    <p id="song3" class="songs">
+        <img class="album_image" src="" alt="" />
+        <span class="song_name"></span>
+        <span class="artist_name"></span>
+        <a href="" class="preview_link">Link to Spotify</a>
+    </p>
+    <p id="song4" class="songs">
+        <img class="album_image" src="" alt="" />
+        <span class="song_name"></span>
+        <span class="artist_name"></span>
+        <a href="" class="preview_link">Link to Spotify</a>
+    </p>
+    <p id="song5" class="songs">
+        <img class="album_image" src="" alt="" />
+        <span class="song_name"></span>
+        <span class="artist_name"></span>
+        <a href="" class="preview_link">Link to Spotify</a>
+    </p>
 </div>
 
 
 </div>
 
 <script type="text/javascript" src="../static/form_handler.js"></script>
-
 </body>
 </html>
