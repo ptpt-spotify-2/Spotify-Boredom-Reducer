@@ -121,7 +121,7 @@ def model_prediction(model_input):
 
     scalable_features = ['duration_ms', 'popularity', 'tempo', 'key']
     scaling_transformer = Pipeline(steps=[('scaler', MinMaxScaler())])
-    knn = joblib.load("../model/knn_best.joblib.gz")
+    knn = joblib.load("Spotify-Boredom-Reducer/model/knn_best.joblib.gz")
 
     column_trans = ColumnTransformer(
         transformers=[
@@ -142,7 +142,7 @@ def get_tracks_model(model_output):
     :return: Spotify_api tracks
     """
     track_list = list()
-    open_tracks = open("../csv/df_ids.json")
+    open_tracks = open("Spotify-Boredom-Reducer/csv/df_ids.json")
     track_ids = json.load(open_tracks)
 
     for key in model_output:
