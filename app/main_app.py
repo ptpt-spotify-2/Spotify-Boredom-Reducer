@@ -5,7 +5,6 @@ import API_requests
 app = Flask(__name__)
 req_handler = API_requests
 
-
 @app.route('/')
 def landing():
 
