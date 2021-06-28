@@ -33,7 +33,7 @@ def song_search(q_type, subject):
     """
 
     # user input for use in api query
-    q = url_enc(subject)
+    q = subject.replace(' ', '%20')
     results = client.search(q, limit=1, type=q_type)
 
     # parse the api response
